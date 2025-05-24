@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des PDF</title>
+</head>
+<body>
+    <h2>Ouvrir un PDF</h2>
+    <ul>
+        {% for pdf in pdfs %}
+            <li>
+                {{ pdf }}
+                <a href="{% static 'Aptu_/pdfs/' %}{{ pdf }}" target="_blank">
+                    <button>Ouvrir</button>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

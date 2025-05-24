@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Grande Bibliothèque</title>
+    
+</head>
+<style>
+*
+{
+   
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   list-style: none;
+   text-decoration: none;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+ }
+ :root {
+   --main-color: #f58e08;
+   --text-color: #000000;
+   --bg-color: #fff;
+   --off-color:#f58e08;
+ }  
+ body.active {
+ --bg-color: #000000;
+ --text-color: #f3f3f3;
+ --main-color: #04dee6;
+ --off-color:none;
+ --topo-color:#04dee6;
+ }
+    body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 90%;
+    margin: 0 auto;
+    background-color: var(--bg-color);
+    
+}
+p{
+    text-align: center;
+}
+h2 {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--main-color);
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.categories {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px; /* Pour éviter que le défilement horizontal ne coupe le bas des boutons */
+}
+
+.category-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.category-button.active {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.book-slider-container {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.book-slider {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    overflow-x: auto;
+    
+}
+
+.book-item {
+    flex: 0 0 auto;
+    width: 200px;
+    border: 1px solid var(--main-color);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    height: 300px;
+    scroll-snap-align: none;
+    background-color:rgb(248, 248, 248);
+}
+
+.book-item img {
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.book-item h3 {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.book-item p {
+    font-size: 0.8em;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.book-item a {
+    display: inline-block;
+    background-color: var(--main-color);
+    color: white;
+    padding: 6px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.8em;
+}
+
+.book-item a:hover {
+    background-color: var(--main-color);
+}
+
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--main-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.book-slider-container:hover .slider-button,
+.book-slider-container:focus-within .slider-button {
+    opacity: 1;
+}
+
+.slider-button.left {
+    left: 10px;
+    border-radius: 5px 0 0 5px;
+}
+
+.slider-button.right {
+    right: 10px;
+    border-radius: 0 5px 5px 0;
+}
+.book-slider {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    overflow-x: auto; /* Permet le défilement horizontal */
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Pour Firefox */
+    -ms-overflow-style: none; /* Pour Internet Explorer et Edge */
+}
+#darkmode {
+  
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: 25px;
+  margin-left: 20px;
+}
+.book-slider::-webkit-scrollbar {
+    display: none; /* Pour Chrome, Safari et Opera */
+}
+.pagination {
+    text-align: center;
+    margin-top: 1px;
+}
+.pagination button{
+padding: 15px 50px;
+  border: none;
+  background-color: var(--main-color);
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+span{
+    font-size: 20px;
+}
+@media (max-width: 768px) {
+    .pagination button{
+    padding: 15px 10px;
+  border: none;
+  background-color: var(--main-color);
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+ }
+</style>
+<body>
+    <a href="{% url 'main' %}"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg></a> 
+    <a href="{% url 'main' %}"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg></a>
+    <div class="container">
+        <h2>La Bibliothèque Aptus</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher un livre...">
+        </div>
+        <div class="categories">
+            <button class="category-button active" data-category="all">Tous les livres</button>
+            <button class="category-button" data-category="histoire">Histoire</button>
+            <button class="category-button" data-category="geographie">Géographie</button>
+            <button class="category-button" data-category="science">Science</button>
+            <button class="category-button" data-category="fiction">Fiction</button>
+            <button class="category-button" data-category="sports">Sport</button>
+            <button class="category-button" data-category="comics">BD</button>
+            <button class="category-button" data-category="philosophy">Philosophie</button>
+            <button class="category-button" data-category="politics">Politique</button>
+            <button class="category-button" data-category="religion">Religion</button>
+            <button class="category-button" data-category="vocabulary">Vocabulaire</button>
+            <button class="category-button" data-category="conjugation">Conjugaison</button>
+            <button class="category-button" data-category="mathematics">Mathématiques</button>
+            <button class="category-button" data-category="novel">Roman</button>
+            <button class="category-button" data-category="art">Art</button>
+            <button class="category-button" data-category="biography">Biographie</button>
+            <button class="category-button" data-category="cooking">Cuisine</button>
+            <button class="category-button" data-category="travel">Voyage</button>
+            </div>
+        <div class="book-slider-container">
+            <button class="slider-button left" id="sliderLeftBtn">&lt;</button>
+            <div class="book-slider" id="bookSlider">
+                </div>
+            <button class="slider-button right" id="sliderRightBtn">&gt;</button>
+        </div>
+        <div class="pagination">
+            <button id="prevPage" disabled>Préc</button>
+            <span id="pageInfo">Page 1</span>
+            <button id="nextPage">Suiv</button>
+        </div>
+        <div class="bx bx-moon" id="darkmode">🌙</div>
+        
+    </div>
+
+    
+</body>
+<script src="main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const bookSlider = document.getElementById('bookSlider');
+    const categoryButtons = document.querySelectorAll('.category-button');
+    const sliderLeftBtn = document.getElementById('sliderLeftBtn');
+    const sliderRightBtn = document.getElementById('sliderRightBtn');
+    const prevPageButton = document.getElementById('prevPage');
+    const nextPageButton = document.getElementById('nextPage');
+    const pageInfoSpan = document.getElementById('pageInfo');
+
+    let currentCategory = 'all';
+    let currentSearchTerm = '';
+    let startIndex = 0;
+    const maxResults = 10;
+    let totalItems = 0;
+
+    async function fetchBooks(query = '', category = 'all', startIndex = 0) {
+        let apiUrl = `https://www.googleapis.com/books/v1/volumes?langRestrict=fr&maxResults=${maxResults}&startIndex=${startIndex}`;
+
+        if (query) {
+            apiUrl += `&q=${query}`;
+        } else if (category !== 'all') {
+            apiUrl += `&q=subject:${encodeURIComponent(getGoogleBooksCategory(category))}`;
+        } else {
+            apiUrl += '&q=litterature';
+        }
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if (data.items) {
+                displayBooks(data.items);
+                totalItems = data.totalItems || 0;
+                updatePagination();
+            } else {
+                bookSlider.innerHTML = '<p>Aucun livre trouvé.</p>';
+                sliderLeftBtn.style.display = 'none';
+                sliderRightBtn.style.display = 'none';
+                totalItems = 0;
+                updatePagination();
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des livres :", error);
+            bookSlider.innerHTML = '<p>Erreur lors du chargement des livres.</p>';
+            sliderLeftBtn.style.display = 'none';
+            sliderRightBtn.style.display = 'none';
+            totalItems = 0;
+            updatePagination();
+        }
+    }
+
+    function getGoogleBooksCategory(category) {
+        switch (category) {
+            case 'sports':
+                return 'sports';
+            case 'comics':
+                return 'comics & graphic novels';
+            case 'philosophy':
+                return 'philosophy';
+            case 'politics':
+                return 'political science';
+            case 'religion':
+                return 'religion';
+            case 'vocabulary':
+                return 'language arts & disciplines';
+            case 'conjugation':
+                return 'language arts & disciplines';
+            case 'mathematics':
+                return 'mathematics';
+            case 'novel':
+                return 'fiction';
+            case 'art':
+                return 'art';
+            case 'biography':
+                return 'biography & autobiography';
+            case 'cooking':
+                return 'cooking';
+            case 'travel':
+                return 'travel';
+            case 'histoire':
+                return 'history';
+            case 'geographie':
+                return 'geography';
+            case 'science':
+                return 'science';
+            case 'fiction':
+                return 'fiction';
+            default:
+                return '';
+        }
+    }
+
+    function displayBooks(books) {
+        bookSlider.innerHTML = '';
+        if (books.length === 0) {
+            bookSlider.innerHTML = '<p>Aucun livre trouvé sur cette page.</p>';
+            sliderLeftBtn.style.display = 'none';
+            sliderRightBtn.style.display = 'none';
+            return;
+        }
+
+        books.forEach(book => {
+            const volumeInfo = book.volumeInfo;
+            const title = volumeInfo?.title || 'Titre inconnu';
+            const authors = volumeInfo?.authors ? volumeInfo.authors.join(', ') : 'Auteur inconnu';
+            const imageLink = volumeInfo?.imageLinks?.thumbnail || 'placeholder.png';
+            const previewLink = volumeInfo?.previewLink || '#';
+
+            const bookDiv = document.createElement('div');
+            bookDiv.classList.add('book-item');
+            bookDiv.innerHTML = `
+                <img src="${imageLink}" alt="${title}">
+                <h3>${title}</h3>
+                ${authors ? `<p>Par: ${authors}</p>` : ''}
+                <a href="${previewLink}" target="_blank">Lire</a>
+            `;
+            bookSlider.appendChild(bookDiv);
+        });
+
+        sliderLeftBtn.style.display = books.length > 0 ? 'block' : 'none';
+        sliderRightBtn.style.display = books.length > 0 ? 'block' : 'none';
+    }
+
+    function updatePagination() {
+        const currentPage = Math.floor(startIndex / maxResults) + 1;
+        const totalPages = Math.ceil(totalItems / maxResults);
+        pageInfoSpan.textContent = `Page ${currentPage}`;
+        prevPageButton.disabled = startIndex === 0;
+        nextPageButton.disabled = startIndex + maxResults >= totalItems;
+    }
+
+    function filterBooksByCategory(category) {
+        currentCategory = category;
+        startIndex = 0;
+        fetchBooks(currentSearchTerm, category);
+        updateSearchPlaceholder(category);
+    }
+
+    function updateSearchPlaceholder(category) {
+        switch (category) {
+            case 'sports':
+                searchInput.placeholder = 'Rechercher un livre de sport...';
+                break;
+            case 'comics':
+                searchInput.placeholder = 'Rechercher une BD...';
+                break;
+            case 'philosophy':
+                searchInput.placeholder = 'Rechercher un livre de philosophie...';
+                break;
+            case 'politics':
+                searchInput.placeholder = 'Rechercher un livre de politique...';
+                break;
+            case 'religion':
+                searchInput.placeholder = 'Rechercher un livre de religion...';
+                break;
+            case 'vocabulary':
+                searchInput.placeholder = 'Rechercher un livre de vocabulaire...';
+                break;
+            case 'conjugation':
+                searchInput.placeholder = 'Rechercher un livre de conjugaison...';
+                break;
+            case 'mathematics':
+                searchInput.placeholder = 'Rechercher un livre de mathématiques...';
+                break;
+            case 'novel':
+                searchInput.placeholder = 'Rechercher un roman...';
+                break;
+            case 'art':
+                searchInput.placeholder = 'Rechercher un livre d\'art...';
+                break;
+            case 'biography':
+                searchInput.placeholder = 'Rechercher une biographie...';
+                break;
+            case 'cooking':
+                searchInput.placeholder = 'Rechercher un livre de cuisine...';
+                break;
+            case 'travel':
+                searchInput.placeholder = 'Rechercher un livre de voyage...';
+                break;
+            case 'histoire':
+                searchInput.placeholder = 'Rechercher un livre d\'histoire...';
+                break;
+            case 'geographie':
+                searchInput.placeholder = 'Rechercher un livre de géographie...';
+                break;
+            case 'science':
+                searchInput.placeholder = 'Rechercher un livre de science...';
+                break;
+            case 'fiction':
+                searchInput.placeholder = 'Rechercher un roman...';
+                break;
+            default:
+                searchInput.placeholder = 'Rechercher un livre...';
+                break;
+        }
+    }
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            filterBooksByCategory(this.dataset.category);
+        });
+    });
+
+    searchInput.addEventListener('input', function() {
+        currentSearchTerm = this.value.toLowerCase().trim();
+        startIndex = 0;
+        fetchBooks(currentSearchTerm, currentCategory);
+    });
+
+    sliderLeftBtn.addEventListener('click', () => {
+        bookSlider.scrollBy({ left: -bookSlider.offsetWidth, behavior: 'smooth' });
+    });
+
+    sliderRightBtn.addEventListener('click', () => {
+        bookSlider.scrollBy({ left: bookSlider.offsetWidth, behavior: 'smooth' });
+    });
+
+    prevPageButton.addEventListener('click', () => {
+        startIndex = Math.max(0, startIndex - maxResults);
+        fetchBooks(currentSearchTerm, currentCategory, startIndex);
+    });
+
+    nextPageButton.addEventListener('click', () => {
+        startIndex += maxResults;
+        fetchBooks(currentSearchTerm, currentCategory, startIndex);
+    });
+
+    fetchBooks('', 'litterature');
+    updateSearchPlaceholder('all');
+    document.querySelector('.category-button[data-category="all"]').classList.add('active');
+});
+</script>
+</html>

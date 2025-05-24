@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="{% static 'Aptu_/css/inscription.css' %}">
+</head>
+<body>
+    <body>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <h2>Inscription</h2>
+            {% csrf_token %}
+            <div class="progress-bar">
+                <div class="step active">1</div>
+                <div class="step">2</div>
+                <div class="step">3</div>
+                <div class="step">4</div>
+            </div>
+            <div class="form-step active" id="step1">
+                <label>Nom :</label><input type="text" name="nom" required><br>
+                <label>Prénom :</label><input type="text" name="prenom" required><br>
+            </div>
+            <div class="form-step" id="step2">
+                <label>Email :</label><input type="email" name="email" required><br>
+                <label>Genre :</label>
+                <select name="genre" required>
+                    <option value="Homme">Homme</option>
+                    <option value="Femme">Femme</option>
+                </select><br>
+            </div>
+            <div class="form-step" id="step3">
+                <label>Adresse :</label><input type="text" name="adresse"><br>
+                <label>Photo de profil :</label><input type="file" name="photo"><br>
+            </div>
+            <div class="form-step" id="step4">
+                <label>Mot de passe :</label><input type="password" name="password" required><br>
+            </div>
+            
+            <div class="btns">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Précédent</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Suivant</button>
+            </div>
+            <a href="{% url 'login' %}">Déjà inscrit ? Se connecter</a>
+           <p></p>
+           
+            
+        </form>
+        <script src="{% static 'Aptu_/js/inscription.js' %}"></script>
+</body>
+</html>

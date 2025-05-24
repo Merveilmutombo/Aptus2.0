@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connexion</title>
+    <link rel="stylesheet" href="{% static 'Aptu_/css/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <form method="post">
+            <h2>Connexion</h2>
+            {% csrf_token %}
+            {% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
+            <label>Email :</label><input type="email" name="email" required><br>
+            <label>Mot de passe :</label><input type="password" name="password" required><br>
+            <button type="submit">Se connecter</button>
+            <p></p>
+            <a href="{% url 'inscription' %}">Créer un compte</a>
+        </form>
+        <p>&emsp;</p>
+    </div>
+   
+    <script src="{% static 'Aptu_/js/login.js' %}"></script>
+</body>
+</html>

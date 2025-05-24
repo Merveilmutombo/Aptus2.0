@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifier mon profil</title>
+    <style>
+        :root {
+            --main-color: #f58e08;
+            --text-color: #000000;
+            --bg-color: #fff;
+            --back-color: #f0f0f0; /* Define a background color for form fields */
+        }
+
+        body {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px; /* Add padding to the body for better spacing on small screens */
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        form {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.678);
+            width: 90%; /* Make form responsive */
+            max-width: 500px; /* Limit maximum width */
+            box-sizing: border-box; /* Include padding and border in width */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-weight: bold;
+            font-size: 16px;
+        }
+        button{
+            background-color: var(--main-color);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-left: 150px;
+        }
+        input[type="text"],
+        input[type="email"],
+        select,
+        input[type="file"] {
+            width: calc(100% - 20px); /* Leave some space for padding and border */
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; /* Ensure padding doesn't increase width */
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: var(--main-color);
+        }
+
+        select {
+            height: 40px;
+        }
+
+        input[type="file"] {
+            padding-top: 5px;
+        }
+
+        .profile-picture-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--main-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #ccc;
+            margin: 0 auto; /* Center the image */
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-section button {
+            display: block;
+            margin: 20px auto 0 auto; /* Center the button and add margin */
+            padding: 10px 20px;
+            border: none;
+            background: var(--main-color);
+            color: #fff;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            width: 200px; /* Increased width of the button */
+        }
+
+        .profile-section button:hover {
+            background-color: #e08e0b;
+        }
+
+        .profile-section a {
+            color: var(--text-color);
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .profile-section a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            form {
+                padding: 15px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            select,
+            input[type="file"] {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .profile-section button {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+
+            .profile-picture {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <a href="{% url 'home' %}"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg></a>
+        <h2>Modifier mon profil</h2>
+        {% csrf_token %}
+        
+        <div class="profile-picture-wrapper">
+            <div class="profile-picture">
+                {% if user.photo %}
+                    <img src="{{ user.photo.url }}" alt="Photo de profil">
+                {% else %}
+                    <span>No Photo</span>
+                {% endif %}
+            </div>
+           
+        </div> <label>Photo de profil :</label><input type="file" name="photo"><br>
+        <label>Nom :</label><input type="text" name="nom" value="{{ user.last_name }}" required><br>
+        <label>Prénom :</label><input type="text" name="prenom" value="{{ user.first_name }}" required><br>
+        <label>Email :</label><input type="email" name="email" value="{{ user.email }}" required><br>
+        <label>Genre :</label>
+        <select name="genre" required>
+            <option value="Homme" {% if user.genre == "Homme" %}selected{% endif %}>Homme</option>
+            <option value="Femme" {% if user.genre == "Femme" %}selected{% endif %}>Femme</option>
+        </select><br>
+        <label>Adresse :</label><input type="text" name="adresse" value="{{ user.adresse }}"><br>
+        
+        <button type="submit">Enregistrer</button>
+        
+    </form>
+</body>
+</html>

@@ -1,0 +1,205 @@
+        :root {
+            --main-color: #f58e08;
+            --text-color: #000000;
+            --bg-color: #fff;
+            --off-color: #f58e08;
+            --take-color: #ddd;
+        }
+
+        body.active {
+            --bg-color: #000000;
+            --text-color: #f3f3f3;
+            --main-color: #04dee6;
+            --off-color: none;
+            --take-color: #04dee6;
+        }
+
+        body {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #darkmode {
+            cursor: pointer;
+            font-size: 20px;
+            margin-top: -7px;
+        }
+
+        .container {
+            margin-top: 80px;
+            background: var(--bg-color);
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--main-color);
+            box-sizing: border-box;
+        }
+        a{
+            text-decoration: none;
+            color: var(--text-color);
+            text-align: center;
+            margin-top: 90px;
+            margin-left: 90px;
+        }
+        svg {
+            color: var(--text-color);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #ddd;
+            z-index: 0;
+        }
+
+        .step {
+            z-index: 1;
+            background: #b3b2b2;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            color: black;
+            transition: background 0.3s;
+        }
+
+        .step.active {
+            background: var(--main-color);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select,
+        textarea {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 12px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        select {
+            height: 36px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: auto;
+            min-height: 80px;
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            background: var(--main-color);
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background: var(--main-color);
+        }
+
+        h2 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        main a {
+            text-decoration: none;
+            text-align: center;
+            align-items: center;
+            color: var(--text-color);
+            margin-left: 0;
+            display: block;
+            margin-top: 10px;
+        }
+
+        a {
+            text-align: start;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 20px;
+                padding: 15px;
+                width: 95%;
+                border-radius: 10px;
+                box-shadow: 0 0 10px var(--main-color);
+                height: auto;
+            }
+
+            .form-container {
+                width: 100%;
+            }
+
+            input, select, textarea {
+                width: calc(100% - 16px);
+                padding: 8px;
+                margin-bottom: 12px;
+                margin-top: 10px;
+            }
+
+            button {
+                padding: 10px 16px;
+            }
+
+            .btns {
+                flex-direction: column;
+            }
+
+            .btns button {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+        }

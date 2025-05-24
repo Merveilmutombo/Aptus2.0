@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aptus</title>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'Aptu_/css/sup.css' %}">
+</head>
+<body class="font-sans bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="quiz-container bg-white p-8 rounded-lg shadow-xl w-full max-w-md md:max-w-lg lg:max-w-xl">
+            <a href="{% url 'main' %}"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg></a>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Mon Questionnaire</h1>
+
+        <div id="quiz" class="space-y-6">
+            </div>
+
+        <button id="submit" class="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+            Résultats
+        </button>
+
+        <div id="results" class="hidden mt-8 text-center text-xl font-semibold text-gray-700 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            </div>
+    </div>
+    
+    <script src="{% static 'Aptu_/js/sup.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    background: #f4f4f4;
+    font-family: Arial, sans-serif;
+    background-image: url(img/BK2.jpg);
+   background-size: cover;
+  }
+  
+  .container {
+    text-align: center;
+    padding-top: -50px;
+  }
+  h1{
+    color: black;
+    font-size: 80px;
+font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .barre {
+    width: 300px;
+    height: 10px;
+    
+    margin: 20px auto;
+   
+    overflow: hidden;
+  }
+  
+  .progress {
+    height: 2px;
+    width: 0;
+    background: #f58e08;
+    animation: avancer 5s linear forwards;
+  }
+  
+  @keyframes avancer {
+    to { width: 100%; }
+  }
+  
